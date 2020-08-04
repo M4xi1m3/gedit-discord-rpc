@@ -1,0 +1,10 @@
+[Plugin]
+Loader=python3
+Module=discord-rpc
+IAge=3
+Name=Discord RPC
+Description=Discord RPC integration, because why not.
+Authors=Maxime "M4x1m3" FRIESS <M4x1me@protonmail.com>
+Copyright=Copyright © 2020 Maxime "M4x1m3" FRIESS <M4x1me@protonmail.com>
+Website=https://github.com/M4xi1m3/gedit-discord-rpc
+
