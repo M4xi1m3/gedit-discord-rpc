@@ -15,9 +15,7 @@ class ExamplePyWindowActivatable(GObject.Object, Gedit.WindowActivatable):
         os.chdir(os.path.dirname(__file__))
         GObject.Object.__init__(self)
         GObject.Object.__init__(self)
-        with open("token", "r") as token_file:
-            self.CLIENT_ID = ''.join(c for c in token_file.readline() if c.isdigit())
-        print(self.CLIENT_ID)
+        self.CLIENT_ID = "740171019003756604"
         self.shall_update = False
         self.langage = ""
         self.name = ""
