@@ -15,7 +15,6 @@ class ExamplePyWindowActivatable(GObject.Object, Gedit.WindowActivatable):
     _rpc = None
 
     def __init__(self):
-        os.chdir(os.path.dirname(__file__))
         GObject.Object.__init__(self)
         self._client_id = "740171019003756604"
         self._pid = os.getpid()
