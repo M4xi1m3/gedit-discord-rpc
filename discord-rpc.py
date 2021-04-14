@@ -24,7 +24,6 @@ class DiscordRPC(Thread):
     _client_id = "740171019003756604"  # set discord application id here
     _enabled = False
     _update = False
-    doc = None
     tab = None
     langs = []
     _start = -1
@@ -49,7 +48,6 @@ class DiscordRPC(Thread):
             clear status from DiscordRPC
         """
         if tab is self.tab:
-            self.doc = None
             self.tab = None
             self._update = True
 
@@ -57,24 +55,31 @@ class DiscordRPC(Thread):
         """
         Set status for DiscordRPC.
         """
-        if tab is not self.tab:
+        if tab:
             self.tab = tab
-            self.doc = tab.get_document()
             self._start = start
-            self._update = True
+        else:
+            self.tab = None
+        self._update = True
+
+    @property
+    def doc(self):
+        if self.tab:
+            return self.tab.get_document()
+        return None
 
     @property
     def lang(self):
         """Language name"""
         if self.doc and self.doc.props.language:
             return self.doc.props.language.get_name()
-        return ''
+        return 'Unknown'
 
     @property
     def name(self):
         if self.doc:
             return self.doc.props.tepl_short_title
-        return 'Untitled Document'
+        return ''
 
     def stop(self):
         """Stop this thread"""
@@ -83,7 +88,7 @@ class DiscordRPC(Thread):
     def run(self):
         set_loop(new_loop())
         while True:
-            if self.__stop.is_set():
+            if self.__stop.is_set() and not self._enabled:
                 break
             try:
                 self._reconnect()
@@ -91,6 +96,7 @@ class DiscordRPC(Thread):
                     if self._enabled:
                         self._rpc.clear_activity(pid=self._pid)
                         self._rpc.close()
+                        self._enabled = False
                         continue
                 if self._enabled and self._update:
                     if self.doc:
