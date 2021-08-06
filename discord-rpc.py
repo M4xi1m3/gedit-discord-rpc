@@ -78,7 +78,9 @@ class DiscordRPC(Thread):
     @property
     def name(self):
         if self.doc:
-            return self.doc.props.tepl_short_title
+            return (self.doc.props.shortname
+                    if hasattr(self.doc.props, 'shortname')
+                    else self.doc.props.tepl_short_title)
         return ''
 
     def stop(self):
